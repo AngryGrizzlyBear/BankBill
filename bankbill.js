@@ -10,9 +10,12 @@ client.on('message', msg => {
   if (msg.content === `${prefix}ping`) {
     msg.reply('pong');
   } else if (msg.content === `${prefix}bread`) {
-    msg.reply('M  O  N  E  Y.');
+    msg.reply('**M  O  N  E  Y.**');
   } else if (msg.content === `${prefix}server`) {
-    msg.channel.send(`This server's name is: ${msg.guild.name}`);
+    msg.channel.send(`This server's name is: ${msg.guild.name}\n
+      Total members: ${msg.guild.memberCount}\n
+      Created: ${msg.guild.createdAt}\n
+      Region: ${msg.guild.region}`);
   }
 });
 
