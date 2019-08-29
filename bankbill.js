@@ -28,13 +28,21 @@ client.on('message', msg => {
       );
     }
     msg.channel.send(`Command name: ${command}\nArguments: ${args}`);
-  } else if (command === 'kick') {
+  } else if (command === 'subjugation') {
     if (!msg.mentions.users.size) {
-      return msg.reply('Who should I get at?');
+      return msg.reply(`Who's out here doing illegal shit?`);
+    } else if (command === 'kick') {
+      const taggedUser = msg.mentions.users.first();
+      msg.channel.send(`You wanted to kick: ${taggedUser.username}!`);
     }
+
     const taggedUser = msg.mentions.users.first();
 
-    msg.channel.send(`Want me to get at: ${taggedUser.username}?`);
+    msg.channel.send(
+      `If the bank don't get to you. I'mma get to you ${taggedUser.username}.`,
+    );
+  } else if (command === 'situation') {
+    return msg.reply(`Look's like we have a lil' situaaaaaaaation.`);
   }
 });
 
