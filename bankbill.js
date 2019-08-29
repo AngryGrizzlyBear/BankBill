@@ -9,7 +9,7 @@ client.on('ready', () => {
 client.on('message', msg => {
   if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
-  const args = msg.content.slice(prefix.length).split(' ');
+  const args = msg.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
   if (msg.content === `${prefix}ping`) {
@@ -28,6 +28,13 @@ client.on('message', msg => {
       );
     }
     msg.channel.send(`Command name: ${command}\nArguments: ${args}`);
+  } else if (command === 'kick') {
+    if (!msg.mentions.users.size) {
+      return msg.reply('Who should I get at?');
+    }
+    const taggedUser = msg.mentions.users.first();
+
+    msg.channel.send(`Want me to get at: ${taggedUser.username}?`);
   }
 });
 
