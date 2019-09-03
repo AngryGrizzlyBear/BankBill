@@ -43,6 +43,21 @@ client.on('message', msg => {
     );
   } else if (command === 'situation') {
     return msg.reply(`Look's like we have a lil' situaaaaaaaation.`);
+  } else if (command === 'coverup') {
+    const amount = parseInt(args[0]) +1;
+
+    if (isNaN(amount)) {
+      return msg.reply("I need numbers homie.");
+    } else if (amount < 1 || amount > 99) {
+      return msg.reply('Gimme a number between 1 and 99.');
+    }
+
+    msg.channel.bulkDelete(amount, true).catch(err => {
+      console.error(err);
+      msg.channel.send(
+        'There was an error trying to prune messages in this channel.',
+      );
+    });
   }
 });
 // Working on this tomorrow, probably.
