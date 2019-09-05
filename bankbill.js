@@ -24,44 +24,13 @@ client.on('message', msg => {
   const args = msg.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if (command === 'ping') {
-    client.commands.get('ping').execute(msg, args);
-  } else if (command === `bread`) {
-    client.commands.get('bread').execute(msg, args);
-  } else if (command === `server`) {
-    client.commands.get('server').execute(msg, args);
-  } else if (command === 'args-info') {
-    client.commands.get('args-info').execute(msg, args);
-  } else if (command === 'subjugation') {
-    if (!msg.mentions.users.size) {
-      return msg.reply(`Who's out here doing illegal shit?`);
-    } else if (command === 'kick') {
-      const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`You wanted to kick: ${taggedUser.username}!`);
-    }
+  if (!client.commands.has(command)) return;
 
-    const taggedUser = msg.mentions.users.first();
-
-    msg.channel.send(
-      `If the bank don't get to you. I'mma get to you ${taggedUser.username}.`,
-    );
-  } else if (command === 'situation') {
-    return msg.reply(`Look's like we have a lil' situaaaaaaaation.`);
-  } else if (command === 'coverup') {
-    const amount = parseInt(args[0]) + 1;
-
-    if (isNaN(amount)) {
-      return msg.reply('I need numbers homie.');
-    } else if (amount < 1 || amount > 99) {
-      return msg.reply('Gimme a number between 1 and 99.');
-    }
-
-    msg.channel.bulkDelete(amount, true).catch(err => {
-      console.error(err);
-      msg.channel.send(
-        'There was an error trying to prune messages in this channel.',
-      );
-    });
+  try {
+    client.commands.get(command).execute(msg, args);
+  } catch (error) {
+    console.error(error);
+    msg.reply(`I don't understand what you're trying to tell me.`);
   }
 });
 // Working on this tomorrow, probably.
