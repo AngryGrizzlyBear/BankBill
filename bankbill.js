@@ -1,6 +1,18 @@
 const {prefix, token} = require('./config.json');
+const fs = require('fs');
 const Discord = require('discord.js');
+
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+const commandFiles = fs
+  .readdirSync('./commands')
+  .filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -12,9 +24,9 @@ client.on('message', msg => {
   const args = msg.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if (msg.content === `${prefix}ping`) {
-    msg.reply('pong');
-  } else if (msg.content === `${prefix}bread`) {
+  if (command === 'ping') {
+    client.commands.get('ping').execute(msg, args);
+  } else if (command === `bread`) {
     msg.reply('**M  O  N  E  Y.**');
   } else if (msg.content === `${prefix}server`) {
     msg.channel.send(`This server's name is: ${msg.guild.name}\n
@@ -44,10 +56,10 @@ client.on('message', msg => {
   } else if (command === 'situation') {
     return msg.reply(`Look's like we have a lil' situaaaaaaaation.`);
   } else if (command === 'coverup') {
-    const amount = parseInt(args[0]) +1;
+    const amount = parseInt(args[0]) + 1;
 
     if (isNaN(amount)) {
-      return msg.reply("I need numbers homie.");
+      return msg.reply('I need numbers homie.');
     } else if (amount < 1 || amount > 99) {
       return msg.reply('Gimme a number between 1 and 99.');
     }
