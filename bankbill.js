@@ -27,19 +27,11 @@ client.on('message', msg => {
   if (command === 'ping') {
     client.commands.get('ping').execute(msg, args);
   } else if (command === `bread`) {
-    msg.reply('**M  O  N  E  Y.**');
-  } else if (msg.content === `${prefix}server`) {
-    msg.channel.send(`This server's name is: ${msg.guild.name}\n
-      Total members: ${msg.guild.memberCount}\n
-      Created: ${msg.guild.createdAt}\n
-      Region: ${msg.guild.region}`);
+    client.commands.get('bread').execute(msg, args);
+  } else if (command === `server`) {
+    client.commands.get('server').execute(msg, args);
   } else if (command === 'args-info') {
-    if (!args.length) {
-      return msg.channel.send(
-        `You didn't provide any arguments, ${msg.author}!`,
-      );
-    }
-    msg.channel.send(`Command name: ${command}\nArguments: ${args}`);
+    client.commands.get('args-info').execute(msg, args);
   } else if (command === 'subjugation') {
     if (!msg.mentions.users.size) {
       return msg.reply(`Who's out here doing illegal shit?`);
