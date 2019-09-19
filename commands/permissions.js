@@ -1,8 +1,8 @@
 module.exports = {
-  name: 'permissions',
-  description: 'permission-check',
+  name: 'rolemake',
+  description: 'rolemake',
   execute(msg, args) {
-   msg.guild.createRole({
+    msg.guild.createRole({
       name: 'M O N E Y',
       permissions: ['MANAGE_MESSAGES', 'KICK_MEMBERS'],
     });
